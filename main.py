@@ -16,9 +16,9 @@ bot = Bot(
 )
 dp = Dispatcher(storage=MemoryStorage())
 
-CHAT_INSTALL_REPORT = -1003676349640   # Отчеты по монтажу
-CHAT_RECLAMATIONS = -5258595365     # Рекламации
-CHAT_PAYMENTS = -5186149215         # Оплаты, рассрочки
+CHAT_INSTALL_REPORT = -1003650441871   # Отчеты по монтажу
+CHAT_RECLAMATIONS =     # Рекламации
+CHAT_PAYMENTS = -1003681663061         # Оплаты, рассрочки
 
 
 
@@ -647,5 +647,6 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 
 
