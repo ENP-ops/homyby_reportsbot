@@ -1271,11 +1271,25 @@ async def reclamation_confirm(cb: CallbackQuery, state: FSMContext):
     photos = data.get("photos", [])
 
     if photos:
+        report_text = (
+        "<b>📝 Рекламация</b>\n\n"
+        f"<b>Имя монтажника:</b> {data['installer']}\n"
+        f"<b>Наименование:</b> {data['rk_name']}\n"
+        f"<b>Описание:</b> {data['text']}"
+    )
+
         media = [
-            InputMediaPhoto(media=p, caption=data["text"] if i == 0 else "")
-            for i, p in enumerate(photos)
-        ]
+        InputMediaPhoto(
+            media=p,
+            caption=report_text if i == 0 else "",
+            parse_mode="HTML"
+        )
+        for i, p in enumerate(photos)
+    ]
+
         await bot.send_media_group(CHAT_RECLAMATIONS, media)
+
+
     else:
         await bot.send_message(
             CHAT_RECLAMATIONS,
@@ -1357,19 +1371,30 @@ async def other_confirm(cb: CallbackQuery, state: FSMContext):
     data = await state.get_data()
     photos = data.get("photos", [])
 
+    report_text = (
+        "<b>📌 Прочее</b>\n\n"
+        f"<b>Имя монтажника:</b> {data['installer']}\n"
+        f"<b>Наименование работ:</b> {data['work_name']}\n"
+        f"<b>Отчет:</b> {data['text']}"
+    )
+
     if photos:
         media = [
-            InputMediaPhoto(media=p, caption=data["text"] if i == 0 else "")
+            InputMediaPhoto(
+                media=p,
+                caption=report_text if i == 0 else "",
+                parse_mode="HTML"
+            )
             for i, p in enumerate(photos)
         ]
+
         await bot.send_media_group(CHAT_INSTALL_REPORT, media)
+
     else:
         await bot.send_message(
             CHAT_INSTALL_REPORT,
-            "<b>📌 Прочее</b>\n\n"
-            f"Имя монтажника: {data['installer']}\n"
-            f"Наименование работ: {data['work_name']}\n"
-            f"Отчет: {data['text']}"
+            report_text,
+            parse_mode="HTML"
         )
 
     await state.clear()
@@ -1382,4 +1407,5 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 
